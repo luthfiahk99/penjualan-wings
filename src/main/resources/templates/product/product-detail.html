@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head th:replace="~{layout :: head}"></head>
+<body class="main-body" th:data-role="${#authentication.getAuthorities()}">
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header (${breadCrumbs})}"></header>
+<main>
+    <div class="grid-tiles product-index">
+        <div class="tiles-container">
+            <div class="tile">
+                <div class="image-container" th:if="*{imagePath == null}">
+                    <img th:src="@{/resources/image/product/no-image.jpg}">
+                </div>
+                <div class="image-container" th:if="*{imagePath != null}">
+                    <img th:src="@{/resources/image/product/{path}(path=*{imagePath})}">
+                </div>
+                <div class="name" th:text="${product.productName}"></div>
+                <s><div class="name" th:if="${product.discount != 0}" th:text="${product.getPriceRupiah}"></div></s>
+                <div class="price" th:text="${product.getDiscountPriceRupiah}"></div>
+                <div class="name" th:text="'Dimension : ' + ${product.dimension}"></div>
+                <div class="name" th:text="'Unit Price : ' + ${product.unit}"></div>
+
+                <div class="button-wrapper">
+                    <a th:href="@{/product/buy(productCode=${product.productCode})}" class="blue-button delete-button">Buy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+<th:block th:replace="~{layout :: javascript}"></th:block>
+</body>
+</html>
